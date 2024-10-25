@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="display-5">Login</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="loginFormControl" (ngSubmit)="onSubmit()" autocomplete="off">
+            
+            <!-- Email Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" formControlName="email" />
+              <span
+                class="text-danger"
+                *ngIf="loginFormControl.get('email')?.touched && loginFormControl.get('email')?.errors?.['required']"
+              >
+                Email is required
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="loginFormControl.get('email')?.touched && loginFormControl.get('email')?.errors?.['invalidEmail']"
+              >
+                Invalid email format
+              </span>
+            </div>
+  
+            <!-- Password Field -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" class="form-control" formControlName="password" />
+              <span
+                class="text-danger"
+                *ngIf="loginFormControl.get('password')?.touched && loginFormControl.get('password')?.errors?.['required']"
+              >
+                Password is required
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="loginFormControl.get('password')?.touched && loginFormControl.get('password')?.errors?.['invalidPassword']"
+              >
+                Password must contain uppercase, lowercase, number, and special character
+              </span>
+            </div>
+  
+            <!-- Submit Button -->
+            <div align="right">
+              <button type="submit" class="btn btn-primary" [disabled]="loginFormControl.invalid">Login</button>
+            </div>
+  
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

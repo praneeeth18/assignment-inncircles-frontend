@@ -21,10 +21,18 @@ export class AuthService {
     this.accessToken = token;
   }
 
-  login(email: string, password: string): Observable<{ message: string, accessToken: string }> {
-    return this.http.post<{ message: string, accessToken: string }>(`${this.apiURL}/login`, { email, password }).pipe(
+  setUserInfo(userId: string, email: string, roles: string[], permissions: string[]): void {
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('email', email);
+    localStorage.setItem('roles', JSON.stringify(roles));
+    localStorage.setItem('permissions', JSON.stringify(permissions));
+  }
+
+  login(email: string, password: string): Observable<{ message: string, accessToken: string, userId: string, email: string, roles: string[] , permissions: string[]}> {
+    return this.http.post<{ message: string, accessToken: string, userId: string, email: string, roles: string[], permissions: string[] }>(`${this.apiURL}/login`, { email, password }).pipe(
       tap(response => {
         this.setAccessToken(response.accessToken);
+        this.setUserInfo(response.userId, response.email, response.roles, response.permissions);
       })
     );
   }
@@ -38,8 +46,27 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout(): void {
     this.accessToken = null;
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
+    localStorage.removeItem('roles');
+    localStorage.removeItem('permissions');
     this.http.get(`${this.apiURL}/logout`).subscribe();
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem('userId');
+  }
+
+  getUserRoles(): string[] {
+    const roles = localStorage.getItem('roles');
+    return roles ? JSON.parse(roles) : [];
+  }
+
+  getUserPermissions(): string[] {
+    const permissions = localStorage.getItem('permissions');
+    return permissions ? JSON.parse(permissions) : [];
   }
 }

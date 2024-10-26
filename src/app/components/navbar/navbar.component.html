@@ -1,0 +1,17 @@
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">MyApp</a>
+
+        <ul *ngIf="isLoggedIn" class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item" *ngFor="let item of navItems">
+                <a routerLink="{{item.route}}" class="nav-link">{{item.label}}</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+            <li *ngIf="isLoggedIn" (click)="logout()" class="nav-item">
+                <a class="nav-link">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>

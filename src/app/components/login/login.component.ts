@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/issues']);
         },
         error: (error) => {
-          if (error.status === 401) {
+          if (error.status === 400) {
             this.errorMessage = 'Incorrect email or password. Please try again.';
             alert(this.errorMessage);
           } else {

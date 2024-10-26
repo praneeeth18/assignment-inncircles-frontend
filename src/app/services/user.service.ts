@@ -16,8 +16,8 @@ export class UserService {
     return this.http.post<{ message: string }>(`${this.apiURL}/register`, userDetails);
   }
 
-  getAllUsers(): Observable<User> {
-    return this.http.get<User>(`${this.apiURL}`);
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiURL}`);
   }
 
   updateProfile(userDeatils: User, id: string): Observable<{ message: string }> {

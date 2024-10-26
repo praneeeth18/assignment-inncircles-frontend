@@ -7,7 +7,7 @@ import { Role, Permission } from '../models/role';
   providedIn: 'root'
 })
 export class RoleService {
-  private apiUrl = '/api/roles';
+  private apiUrl = 'http://localhost:3500/api/roles';
 
   constructor(private http: HttpClient) {}
 
@@ -20,8 +20,8 @@ export class RoleService {
     return this.http.post(`${this.apiUrl}`, body);
   }
 
-  updateRole(id: string, name: string, permissions: Permission[]): Observable<any> {
-    const body = { name, permissions };
+  updateRole(id: string, roleData: Role): Observable<any> {
+    const body = { roleData };
     return this.http.put(`${this.apiUrl}/update/${id}`, body);
   }
 

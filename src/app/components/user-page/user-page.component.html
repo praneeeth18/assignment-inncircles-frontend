@@ -1,8 +1,8 @@
-<div *ngIf="showIssues">
-    <div class="issues-container container my-4">
+<div *ngIf="showUsers">
+    <div class="users-container container my-4">
         <div class="d-flex justify-content-between align-items-center mb-2" style="max-width: 1000px; margin: auto;">
-            <h2 class="text-center">List of Issues</h2>
-            <button (click)="createIssue()" class="btn btn-success">Create Issue</button>
+            <h2 class="text-center">List of Users</h2>
+            <button (click)="createUser()" class="btn btn-success">Create User</button>
         </div>
 
         <div class="table-container">
@@ -11,22 +11,24 @@
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">S.No</th> 
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Contact</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr *ngFor="let issue of paginatedData; let i = index">
+                        <tr *ngFor="let user of paginatedData; let i = index">
                             <td>{{ (i + 1) }}</td>
-                            <td>{{ issue?.title || '' }}</td>
-                            <td>{{ issue?.description || '' }}</td>
-                            <td>{{ issue?.status || '' }}</td>
+                            <td>{{ user?.name || '' }}</td>
+                            <td>{{ user?.email || '' }}</td>
+                            <td>{{ getRoleNames(user?.roles) }}</td>
+                            <td>{{ user?.contact || '' }}</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <button *ngIf="canWrite && issue" (click)="editIssue(issue)" class="btn btn-primary btn-sm" style="margin-right: 10px; border-radius: 0.25rem;">Edit</button>
-                                    <button *ngIf="canDelete && issue" (click)="deleteIssue(issue._id)" class="btn btn-danger btn-sm" style="border-radius: 0.25rem;">Delete</button>
+                                    <button *ngIf="canWrite && user" (click)="edituser(user)" class="btn btn-primary btn-sm" style="margin-right: 10px; border-radius: 0.25rem;">Edit</button>
+                                    <button *ngIf="canDelete && user" (click)="deleteuser(user._id)" class="btn btn-danger btn-sm" style="border-radius: 0.25rem;">Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -50,6 +52,6 @@
     </div>
 </div>
 
-<div *ngIf="!showIssues">
-    <app-issue-form [issue]="selectedIssue" (close)="onFormClose()"></app-issue-form>
+<div *ngIf="!showUsers">
+    <app-user-form [user]="selectedUser" (close)="onFormClose()"></app-user-form>
 </div>

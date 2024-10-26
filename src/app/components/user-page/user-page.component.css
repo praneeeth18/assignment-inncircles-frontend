@@ -1,14 +1,14 @@
-.issues-container .pagination-controls {
+.users-container .pagination-controls {
     max-width: 1000px;
     margin: auto;
 }
 
-.issues-container h2 {
+.users-container h2 {
     flex-grow: 1;
     text-align: center;
 }
 
-.issues-container .btn-success {
+.users-container .btn-success {
     margin-left: auto;
 }
 

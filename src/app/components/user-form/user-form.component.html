@@ -1,0 +1,72 @@
+<div class="card my-3">
+    <div class="card-header">
+        <h5>{{ isEditMode ? 'Edit User' : 'Create User' }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="form-container">
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input id="name" class="form-control" formControlName="name" />
+                    <div *ngIf="userForm.get('name')?.invalid && (userForm.get('name')?.dirty || userForm.get('name')?.touched)" class="text-danger">
+                        Name is required and must be between 1 and 50 characters.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="age" class="form-label">Age</label>
+                    <input id="age" type="number" class="form-control" formControlName="age" />
+                    <div *ngIf="userForm.get('age')?.invalid && (userForm.get('age')?.dirty || userForm.get('age')?.touched)" class="text-danger">
+                        Age must be between 1 and 100.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input id="email" type="email" class="form-control" formControlName="email" />
+                    <div *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)" class="text-danger">
+                        Valid email is required.
+                    </div>
+                </div>
+
+                <div class="mb-3" *ngIf="!isEditMode">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control" formControlName="password" />
+                    <div *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)" class="text-danger">
+                        Password is required.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="roles" class="form-label">Role</label>
+                    <select id="roles" class="form-select" formControlName="roles">
+                        <option value="" disabled>Select a roles</option>
+                        <option *ngFor="let roles of roles" [value]="roles._id">{{ roles.name }}</option>
+                    </select>
+                    <div *ngIf="userForm.get('roles')?.invalid && (userForm.get('roles')?.dirty || userForm.get('roles')?.touched)" class="text-danger">
+                        Role is required.
+                    </div>
+                </div>                
+
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Contact</label>
+                    <input id="contact" class="form-control" formControlName="contact" />
+                    <div *ngIf="userForm.get('contact')?.invalid && (userForm.get('contact')?.dirty || userForm.get('contact')?.touched)" class="text-danger">
+                        Contact number must be a maximum of 15 characters.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea id="bio" class="form-control" formControlName="bio"></textarea>
+                    <div *ngIf="userForm.get('bio')?.invalid && (userForm.get('bio')?.dirty || userForm.get('bio')?.touched)" class="text-danger">
+                        Bio must be a maximum of 250 characters.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin: 0 10px;">{{ isEditMode ? 'Update' : 'Submit' }}</button>
+                <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="roles-list">
+    <h2>List of Roles</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Permissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of roles; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ role.name }}</td>
+          <td>{{ role.permissions.join(', ') }}</td>
+          <td>
+            <button (click)="editRole(role)" class="btn btn-primary btn-sm">Edit</button>
+            <button (click)="deleteRole(role._id)" class="btn btn-danger btn-sm">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+  

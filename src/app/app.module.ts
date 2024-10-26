@@ -11,8 +11,6 @@ import { IssuesPageComponent } from './components/issues-page/issues-page.compon
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { AgGridModule } from 'ag-grid-angular';
 import { IssueFormComponent } from './components/issue-form/issue-form.component';
-import { RolePageComponent } from './components/role-page/role-page.component';
-import { RoleFormComponent } from './components/role-form/role-form.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -25,8 +23,6 @@ import { RolesModule } from './modules/roles/roles.module';
     IssuesPageComponent,
     NavbarComponent,
     IssueFormComponent,
-    RolePageComponent,
-    RoleFormComponent,
     UserPageComponent,
     UserFormComponent,
     UserProfileComponent,

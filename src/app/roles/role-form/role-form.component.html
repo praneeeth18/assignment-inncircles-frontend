@@ -12,7 +12,6 @@
       <small *ngIf="roleForm.get('name')?.errors?.['maxlength']">Role name cannot exceed 50 characters.</small>
     </div>
   </div>
-
   <div class="mb-3">
     <label class="form-label">Permissions:</label>
     <div *ngFor="let permission of availablePermissions" class="form-check">
@@ -29,7 +28,6 @@
       <small>Select at least one permission.</small>
     </div>
   </div>
-
   <div class="d-flex gap-2">
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancel</button>

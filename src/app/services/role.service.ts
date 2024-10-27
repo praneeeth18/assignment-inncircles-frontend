@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Role, Permission } from '../models/role'; 
+import { Role, Permission } from '../models/role';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,8 @@ export class RoleService {
     return this.http.post(`${this.apiUrl}`, body);
   }
 
-  updateRole(id: string, roleData: Role): Observable<any> {
-    const body = { roleData };
+  updateRole(id: string, name: string, permissions: Permission[]): Observable<any> {
+    const body = { name, permissions };
     return this.http.put(`${this.apiUrl}/${id}`, body);
   }
 

@@ -6,13 +6,13 @@ import { RoleService } from '../../services/role.service';
 @Component({
   selector: 'app-role-form',
   templateUrl: './role-form.component.html',
-  styleUrl: './role-form.component.css'
+  styleUrls: ['./role-form.component.css']
 })
-export class RoleFormComponent implements OnInit { 
+export class RoleFormComponent implements OnInit {
   @Input() role: any;
   @Output() close = new EventEmitter<void>();
   @Output() roleCreatedOrUpdated = new EventEmitter<void>();
-  
+
   roleForm: FormGroup;
   availablePermissions: Permission[] = ['READ', 'WRITE', 'ADMIN'];
 
@@ -45,8 +45,7 @@ export class RoleFormComponent implements OnInit {
     if (event.target.checked) {
       this.permissionsArray.push(this.fb.control(permissionValue));
     } else {
-      const index = this.permissionsArray.controls
-        .findIndex(control => control.value === permissionValue);
+      const index = this.permissionsArray.controls.findIndex(control => control.value === permissionValue);
       if (index >= 0) {
         this.permissionsArray.removeAt(index);
       }
@@ -57,24 +56,36 @@ export class RoleFormComponent implements OnInit {
     if (this.roleForm.valid) {
       const roleData = this.roleForm.value;
       if (this.role) {
-        this.roleService.updateRole(this.role._id, roleData).subscribe(() => {
-          this.roleCreatedOrUpdated.emit();
-          this.close.emit();
+        this.roleService.updateRole(this.role._id, roleData.name, roleData.permissions).subscribe({
+          next: () => {
+            alert('Role updated successfully');
+            this.roleCreatedOrUpdated.emit();
+            this.close.emit();
+          },
+          error: (error) => {
+            alert('Error updating role: ' + error.message);
+            console.error(error);
+          }
         });
       } else {
-        this.roleService.createRole(roleData.name, roleData.permissions).subscribe(() => {
-          this.roleCreatedOrUpdated.emit();
-          this.close.emit();
+        this.roleService.createRole(roleData.name, roleData.permissions).subscribe({
+          next: () => {
+            alert('Role created successfully');
+            this.roleCreatedOrUpdated.emit();
+            this.close.emit();
+          },
+          error: (error) => {
+            alert('Error creating role: ' + error.message);
+            console.error(error);
+          }
         });
       }
     } else {
-      this.roleForm.markAllAsTouched(); 
+      this.roleForm.markAllAsTouched();
     }
   }
 
   onCancel() {
     this.close.emit();
   }
-  
 }
-

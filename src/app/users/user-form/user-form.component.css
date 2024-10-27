@@ -1,0 +1,13 @@
+.card {
+    max-width: 800px; 
+    margin: 0 auto; 
+}
+
+.form-container {
+    max-width: 100%;   
+    padding: 20px;     
+}
+
+.form-control, .form-select {
+    width: 100%;       
+}

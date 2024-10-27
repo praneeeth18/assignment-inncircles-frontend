@@ -1,25 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { IssuesPageComponent } from './components/issues-page/issues-page.component';
 import { authGuard } from './guards/auth.guard';
-import { IssueFormComponent } from './components/issue-form/issue-form.component';
-import { UserPageComponent } from './components/user-page/user-page.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { RolesPageComponent } from './modules/roles/components/roles-page/roles-page.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { UserListComponent } from './users/user-list/user-list.component';
+import { UserFormComponent } from './users/user-form/user-form.component';
+import { RolePageComponent } from './roles/role-page/role-page.component';
+
 
 const routes: Routes = [
-  // { path: 'login', component: LoginComponent },
-  // { path: 'issues', component: IssuesPageComponent, canActivate: [authGuard] }, 
-  // { path: '', redirectTo: '/login', pathMatch: 'full' }, 
-  // { path: '**', redirectTo: '/login' }
-  { path: 'issues', component: IssuesPageComponent },
-  { path: 'issue-form', component: IssueFormComponent },
-  { path: 'users', component: UserPageComponent },
-  { path: 'user-form', component: UserFormComponent },
-  { path: 'profile', component: UserProfileComponent},
-  { path: 'roles', component: RolesPageComponent}
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'profile', component: UserProfileComponent, canActivate: [authGuard] },
+  { path: 'issues', loadChildren: () => import('./issues/issues.module').then(m => m.IssuesModule), canActivate: [authGuard] },
+  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule), canActivate: [authGuard], data: { roles: ['Admin'] }},
+  { path: 'roles', loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule), canActivate: [authGuard], data: { roles: ['Admin'] }},
+  { path: 'users', component: UserListComponent, canActivate: [authGuard], data: { roles: ['Admin'] }},
+  { path: 'user-form', component: UserFormComponent, canActivate: [authGuard], data: { roles: ['Admin'] }},
+  { path: 'roles', component: RolePageComponent, canActivate: [authGuard], data: { roles: ['Admin'] }},
+  { path: 'not-found', component: NotfoundComponent },
+  { path: '**', redirectTo: '/not-found' }
 ];
 
 @NgModule({

@@ -1,1 +1,56 @@
-<p>user-profile works!</p>
+<div class="container-xl px-4 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">Profile</div>
+                <div class="card-body">
+                    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label class="small mb-1" for="name">Name</label>
+                            <input class="form-control" id="name" formControlName="name" type="text" placeholder="Enter your name" [ngClass]="{'is-invalid': userForm.get('name')?.invalid && (userForm.get('name')?.touched || userForm.get('name')?.dirty)}">
+                            <div *ngIf="userForm.get('name')?.invalid && (userForm.get('name')?.touched || userForm.get('name')?.dirty)" class="invalid-feedback">
+                                Name is required.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="age">Age</label>
+                            <input class="form-control" id="age" formControlName="age" type="number" placeholder="Enter your age" [ngClass]="{'is-invalid': userForm.get('age')?.invalid && (userForm.get('age')?.touched || userForm.get('age')?.dirty)}">
+                            <div *ngIf="userForm.get('age')?.invalid && (userForm.get('age')?.touched || userForm.get('age')?.dirty)" class="invalid-feedback">
+                                Age is required and must be a valid number.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="email">Email</label>
+                            <input class="form-control" id="email" formControlName="email" type="email" placeholder="Enter your email" readonly>
+                        </div>
+                        <!-- <div *ngIf="showPasswordField" class="mb-3">
+                            <label class="small mb-1" for="password">Password</label>
+                            <input class="form-control" id="password" formControlName="password" type="password" placeholder="Enter your password" [ngClass]="{'is-invalid': userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty)}">
+                            <div *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty)" class="invalid-feedback">
+                                Password is required.
+                            </div>
+                        </div> -->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="contact">Contact</label>
+                            <input class="form-control" id="contact" formControlName="contact" type="text" placeholder="Enter your contact number" [ngClass]="{'is-invalid': userForm.get('contact')?.invalid && (userForm.get('contact')?.touched || userForm.get('contact')?.dirty)}">
+                            <div *ngIf="userForm.get('contact')?.invalid && (userForm.get('contact')?.touched || userForm.get('contact')?.dirty)" class="invalid-feedback">
+                                Contact number is required.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="bio">Bio</label>
+                            <textarea class="form-control" id="bio" formControlName="bio" rows="3" placeholder="Enter a short bio"></textarea>
+                        </div>
+                        <button class="btn btn-primary mb-4" type="submit" [disabled]="userForm.invalid">Save Changes</button>
+                        <!-- <button 
+                            type="button" 
+                            class="btn btn-secondary mb-4 ms-3" 
+                            (click)="togglePasswordField()">
+                            {{ showPasswordField ? 'Cancel Change Password' : 'Change Password' }}
+                        </button> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

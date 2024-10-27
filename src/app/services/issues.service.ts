@@ -13,18 +13,18 @@ export class IssuesService {
   constructor(private http: HttpClient) {}
 
   createIssue(issue: Issue): Observable<any> {
-    return this.http.post(`${this.apiUrl}/`, issue);
+    return this.http.post(`${this.apiUrl}`, issue);
   }
 
   getAllIssues(): Observable<Issue[]> {
-    return this.http.get<Issue[]>(`${this.apiUrl}/getAllIssues`);
+    return this.http.get<Issue[]>(`${this.apiUrl}`);
   }
 
   updateIssue(id: string, issue: Issue): Observable<any> {
-    return this.http.put(`${this.apiUrl}/updateIssue/${id}`, issue);
+    return this.http.put(`${this.apiUrl}/${id}`, issue);
   }
 
   deleteIssue(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/deleteIssue/${id}`);
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

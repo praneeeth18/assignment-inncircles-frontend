@@ -12,7 +12,7 @@ export class RoleService {
   constructor(private http: HttpClient) {}
 
   getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(`${this.apiUrl}/getAllRoles`);
+    return this.http.get<Role[]>(`${this.apiUrl}`);
   }
 
   createRole(name: string, permissions: Permission[]): Observable<any> {
@@ -22,10 +22,10 @@ export class RoleService {
 
   updateRole(id: string, roleData: Role): Observable<any> {
     const body = { roleData };
-    return this.http.put(`${this.apiUrl}/update/${id}`, body);
+    return this.http.put(`${this.apiUrl}/${id}`, body);
   }
 
   deleteRole(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

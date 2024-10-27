@@ -13,22 +13,30 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   register(userDetails: User): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.apiURL}/register`, userDetails);
+    return this.http.post<{ message: string }>(`${this.apiURL}`, userDetails);
   }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiURL}`);
   }
 
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.apiURL}/${id}`);
+  }
+
   updateProfile(userDeatils: User, id: string): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(`${this.apiURL}/users/updateProfile/${id}`, userDeatils);
+    return this.http.put<{ message: string }>(`${this.apiURL}/updateProfile/${id}`, userDeatils);
   }
 
   updateRole(userDeatils: User, id: string): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(`${this.apiURL}/users/updateRole/${id}`, userDeatils);
+    return this.http.put<{ message: string }>(`${this.apiURL}/updateRole/${id}`, userDeatils);
   }
 
   deletUser(id: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.apiURL}/users/delete/${id}`);
+    return this.http.delete<{ message: string }>(`${this.apiURL}/${id}`);
+  }
+
+  updatePassword(password: string, id: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(`${this.apiURL}/updatePassword/${id}`, password);
   }
 }

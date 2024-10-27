@@ -1,23 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']  // Fix the typo here (styleUrl -> styleUrls)
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  navItems: any[] = [];
+  navItems: { label: string, route: string }[] = [];
   userRoles: string[] = [];
   isLoggedIn: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userRoles = this.authService.getUserRoles();
-    this.isLoggedIn = this.authService.getAccessToken() !== null;
-    this.setNavItemsBasedOnRole();
+    this.authService.loginStatus$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        this.userRoles = this.authService.getUserRoles();
+        this.setNavItemsBasedOnRole();
+      } else {
+        this.clearNavItems();
+      }
+    });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (this.isLoggedIn) {
+          this.setNavItemsBasedOnRole();
+        }
+      }
+    });
   }
 
   setNavItemsBasedOnRole() {
@@ -25,20 +39,22 @@ export class NavbarComponent implements OnInit {
 
     if (this.userRoles.includes('Admin')) {
       this.navItems.push(
-        { label: 'Dashboard', route: '/dashboard' },
+        { label: 'Issues', route: '/issues' },
         { label: 'Users', route: '/users' },
-        { label: 'Settings', route: '/settings' }
-      );
-    } else if (this.userRoles.includes('User')) {
-      this.navItems.push(
-        { label: 'Dashboard', route: '/dashboard' },
+        { label: 'Roles', route: '/roles' },
         { label: 'Profile', route: '/profile' }
       );
     } else {
       this.navItems.push(
-        { label: 'Home', route: '/home' }
+        { label: 'Issues', route: '/issues' },
+        { label: 'Profile', route: '/profile' }
       );
     }
+  }
+
+  clearNavItems() {
+    this.userRoles = [];
+    this.navItems = [];
   }
 
   logout() {

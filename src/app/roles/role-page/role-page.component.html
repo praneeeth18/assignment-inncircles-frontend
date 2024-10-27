@@ -1,0 +1,19 @@
+<div class="roles-management">
+    <button (click)="createRole()" class="btn btn-success create-role-btn">Create Role</button>
+    
+    <div class="roles-content d-flex">
+        <app-role-list 
+            (edit)="editRole($event)" 
+            (delete)="deleteRole($event)" 
+            class="roles-list">
+        </app-role-list>
+        
+        <app-role-form 
+            *ngIf="showForm" 
+            [role]="selectedRole" 
+            (close)="onFormClose()" 
+            (roleCreatedOrUpdated)="onRoleCreatedOrUpdated()" 
+            class="roles-form ms-4">
+        </app-role-form>
+    </div>
+</div>

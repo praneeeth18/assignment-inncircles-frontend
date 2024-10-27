@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,21 @@ export class AuthService {
 
   private accessToken: string | null = null;
 
+  private loginStatusSubject = new BehaviorSubject<boolean>(false);
+  loginStatus$ = this.loginStatusSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
-  getAccessToken() {
-    return this.accessToken;
+  getAccessToken(): string | null {
+    return this.accessToken || localStorage.getItem('accessToken');
   }
 
   setAccessToken(token: string) {
     this.accessToken = token;
-  }
+    localStorage.setItem('accessToken', token);  
+    this.loginStatusSubject.next(true);
+}
+
 
   setUserInfo(userId: string, email: string, roles: string[], permissions: string[]): void {
     localStorage.setItem('userId', userId);
@@ -33,6 +39,7 @@ export class AuthService {
       tap(response => {
         this.setAccessToken(response.accessToken);
         this.setUserInfo(response.userId, response.email, response.roles, response.permissions);
+        this.loginStatusSubject.next(true);
       })
     );
   }
@@ -53,6 +60,7 @@ export class AuthService {
     localStorage.removeItem('email');
     localStorage.removeItem('roles');
     localStorage.removeItem('permissions');
+    this.loginStatusSubject.next(false);
     this.http.get(`${this.apiURL}/logout`).subscribe();
   }
 

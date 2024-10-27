@@ -1,11 +1,11 @@
 export interface User {
     id?: string;
     name: string;
-    age?: number;
+    age: number;
     email: string;
     password: string;
     contact?: string;
-    roles: string[];
+    roles?: string[];
     bio?: string;
     refreshToken?: string;
 }

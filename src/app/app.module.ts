@@ -7,36 +7,32 @@ import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { IssuesPageComponent } from './components/issues-page/issues-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component'
-import { AgGridModule } from 'ag-grid-angular';
-import { IssueFormComponent } from './components/issue-form/issue-form.component';
-import { UserPageComponent } from './components/user-page/user-page.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { RolesModule } from './modules/roles/roles.module';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { RolesModule } from './roles/roles.module';
+import { IssuesModule } from './issues/issues.module';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    IssuesPageComponent,
     NavbarComponent,
-    IssueFormComponent,
-    UserPageComponent,
-    UserFormComponent,
     UserProfileComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AgGridModule,
-    RolesModule
+    IssuesModule,
+    UsersModule,
+    RolesModule,
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -9,7 +9,7 @@ import { RoleService } from '../../services/role.service';
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit, OnChanges {
-  @Input() user?: any;
+  @Input() user?: any; 
   @Output() close = new EventEmitter<void>();
 
   userForm: FormGroup;
@@ -21,7 +21,7 @@ export class UserFormComponent implements OnInit, OnChanges {
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
       age: ['', [Validators.min(1), Validators.max(100)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', []], 
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]], 
       contact: ['', [Validators.maxLength(15)]],
       bio: ['', [Validators.maxLength(250)]],
       roles: [[], [Validators.required]]
@@ -30,26 +30,31 @@ export class UserFormComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.fetchRoles();
-    if (this.user) {
-      this.isEditMode = true;
-      this.userForm.patchValue(this.user);
-    }
   }
 
   ngOnChanges(): void {
     if (this.user) {
-      this.isEditMode = true;
+      this.setEditMode(true);
       this.userForm.patchValue(this.user);
+
       this.userForm.get('password')?.clearValidators();
+      this.userForm.get('password')?.updateValueAndValidity();
     } else {
-      this.isEditMode = false;
+      this.setEditMode(false);
       this.userForm.reset();
-      this.userForm.get('password')?.setValidators([Validators.required]);
+      this.userForm.get('password')?.setValidators([
+        Validators.required,
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+      ]);
+      this.userForm.get('password')?.updateValueAndValidity();
     }
-    this.userForm.get('password')?.updateValueAndValidity();
   }
 
-  fetchRoles() {
+  private setEditMode(editMode: boolean): void {
+    this.isEditMode = editMode;
+  }
+
+  fetchRoles(): void {
     this.roleService.getAllRoles().subscribe({
       next: (response) => {
         this.roles = response;
@@ -63,37 +68,26 @@ export class UserFormComponent implements OnInit, OnChanges {
   onSubmit(): void {
     if (this.userForm.valid) {
       const userDetails = this.userForm.value;
-      if (this.isEditMode) {
-        this.userService.updateUser(userDetails, this.user!._id).subscribe({
-          next: () => {
-            alert('User updated successfully!');
-            this.resetForm();
-            this.close.emit();
-          },
-          error: (error) => {
-            console.error('Error updating user :', error);
-            alert('Error updating user ');
-          }
-        });
-      } else {
-        this.userService.register(userDetails).subscribe({
-          next: () => {
-            alert('User created successfully!');
-            this.resetForm();
-            this.close.emit();
-          },
-          error: (error) => {
-            console.error('Error creating user:', error);
-            alert('Error creating user');
-          }
-        });
-      }
+      const request$ = this.isEditMode 
+        ? this.userService.updateUser(userDetails, this.user!._id)
+        : this.userService.register(userDetails);
+
+      request$.subscribe({
+        next: () => {
+          alert(`User ${this.isEditMode ? 'updated' : 'created'} successfully!`);
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error(`Error ${this.isEditMode ? 'updating' : 'creating'} user:`, error);
+          alert(`Error ${this.isEditMode ? 'updating' : 'creating'} user`);
+        }
+      });
     }
   }
 
   resetForm(): void {
     this.userForm.reset();
-    this.isEditMode = false;
+    this.setEditMode(false);
     this.close.emit();
   }
 }

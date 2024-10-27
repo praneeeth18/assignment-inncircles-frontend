@@ -25,7 +25,7 @@
             class="form-control"
             formControlName="age"
             [ngClass]="{'is-invalid': userForm.get('age')?.invalid && (userForm.get('age')?.dirty || userForm.get('age')?.touched)}"
-          />
+            min="1" max="100" />
           <div *ngIf="userForm.get('age')?.invalid && (userForm.get('age')?.dirty || userForm.get('age')?.touched)" class="invalid-feedback">
             Age must be between 1 and 100.
           </div>
@@ -37,8 +37,25 @@
             type="email"
             class="form-control"
             formControlName="email"
-            readonly
+            [ngClass]="{'is-invalid': userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)}"
           />
+          <div *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)" class="invalid-feedback">
+            Valid email is required.
+          </div>
+        </div>
+        <div class="form-group" *ngIf="!isEditMode">
+          <label for="password" class="form-label">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="form-control"
+            formControlName="password"
+            [ngClass]="{'is-invalid': userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)}"
+            required
+          />
+          <div *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)" class="invalid-feedback">
+            Password is required.
+          </div>
         </div>
         <div class="form-group">
           <label for="roles" class="form-label">Role</label>
@@ -62,6 +79,7 @@
             class="form-control"
             formControlName="contact"
             [ngClass]="{'is-invalid': userForm.get('contact')?.invalid && (userForm.get('contact')?.dirty || userForm.get('contact')?.touched)}"
+            maxlength="15"
           />
           <div *ngIf="userForm.get('contact')?.invalid && (userForm.get('contact')?.dirty || userForm.get('contact')?.touched)" class="invalid-feedback">
             Contact number must be a maximum of 15 characters.
@@ -74,6 +92,7 @@
             class="form-control"
             formControlName="bio"
             [ngClass]="{'is-invalid': userForm.get('bio')?.invalid && (userForm.get('bio')?.dirty || userForm.get('bio')?.touched)}"
+            maxlength="250"
           ></textarea>
           <div *ngIf="userForm.get('bio')?.invalid && (userForm.get('bio')?.dirty || userForm.get('bio')?.touched)" class="invalid-feedback">
             Bio must be a maximum of 250 characters.

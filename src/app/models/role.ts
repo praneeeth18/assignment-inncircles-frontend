@@ -1,4 +1,4 @@
-export type Permission = 'READ' | 'WRITE' | 'ADMIN';
+export type Permission = 'READ' | 'WRITE' | 'DELETE';
 
 export interface Role {
     _id: string;

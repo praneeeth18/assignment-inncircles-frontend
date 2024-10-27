@@ -14,7 +14,7 @@ export class RoleFormComponent implements OnInit {
   @Output() roleCreatedOrUpdated = new EventEmitter<void>();
 
   roleForm: FormGroup;
-  availablePermissions: Permission[] = ['READ', 'WRITE', 'ADMIN'];
+  availablePermissions: Permission[] = ['READ', 'WRITE', 'DELETE'];
 
   constructor(private fb: FormBuilder, private roleService: RoleService) {
     this.roleForm = this.fb.group({

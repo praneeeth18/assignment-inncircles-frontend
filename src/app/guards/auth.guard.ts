@@ -23,7 +23,6 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state) =
       console.log('Has required role:', hasRequiredRole);
       
       if (!hasRequiredRole) {
-        // alert('You do not have permission to access this page.');
         return false;
       }
     }

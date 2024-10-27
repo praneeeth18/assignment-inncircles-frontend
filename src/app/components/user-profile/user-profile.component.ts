@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { Role } from '../../models/role';
-import { User } from '../../models/user';
-
 
 @Component({
   selector: 'app-user-profile',
@@ -11,22 +8,18 @@ import { User } from '../../models/user';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-
   userForm: FormGroup;
   userId: any;
-  showPasswordField: boolean = false;
-  passwordForm: FormGroup;
+  isEditMode: boolean = false;
+  initialValues: any; 
 
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(50)]],
-      age: [null, [Validators.min(1), Validators.max(100)]],
-      email: ['', [Validators.required, Validators.email]],
-      contact: ['', Validators.maxLength(15)],
-      bio: ['', Validators.maxLength(250)]
-    });
-    this.passwordForm = this.fb.group({
-      password: ['', Validators.required],
+      name: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(50)]],
+      age: [{ value: null, disabled: true }, [Validators.min(1), Validators.max(100)]],
+      email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+      contact: [{ value: '', disabled: true }, Validators.maxLength(15)],
+      bio: [{ value: '', disabled: true }, Validators.maxLength(250)]
     });
   }
 
@@ -39,7 +32,6 @@ export class UserProfileComponent implements OnInit {
 
   loadUserProfile(id: string) {
     this.userService.getUserById(id).subscribe(user => {
-      console.log(user);
       this.userForm.patchValue({
         name: user.name,
         age: user.age,
@@ -47,51 +39,38 @@ export class UserProfileComponent implements OnInit {
         contact: user.contact,
         bio: user.bio,
       });
+      this.initialValues = this.userForm.getRawValue(); 
     });
+  }
+
+  toggleEditMode() {
+    if (this.isEditMode) {
+      this.userForm.reset(this.initialValues); 
+      this.userForm.disable(); 
+    } else {
+      this.userForm.enable();
+    }
+    this.isEditMode = !this.isEditMode;
   }
 
   onSubmit() {
     if (this.userForm.valid) {
       const userDetails = {
-        id: this.userId, 
+        id: this.userId,
         name: this.userForm.value.name,
         age: this.userForm.value.age,
         email: this.userForm.value.email,
-        password: this.userForm.value.password, 
         contact: this.userForm.value.contact,
         bio: this.userForm.value.bio
       };
-
       this.userService.updateProfile(userDetails, this.userId).subscribe({
         next: (response) => {
           alert('Profile updated successfully');
+          this.initialValues = this.userForm.getRawValue(); 
+          this.toggleEditMode();
         },
         error: (error) => {
           alert('Error updating profile');
-          console.error(error);
-        }
-      });
-    }
-  }
-
-  togglePasswordField() {
-    this.showPasswordField = !this.showPasswordField; 
-    if (!this.showPasswordField) {
-        this.userForm.patchValue({ password: '' }); 
-    }
-}
-
-  onPasswordSubmit() {
-    if (this.passwordForm.valid) {
-      const passwordDetails = this.passwordForm.value.password;
-      this.userService.updatePassword(passwordDetails, this.userId).subscribe({
-        next: (response) => {
-          this.passwordForm.reset(); 
-          this.showPasswordField = false; 
-          alert('Password updated successfully');
-        },
-        error: (error) => {
-          alert('Error updating password');
           console.error(error);
         }
       });

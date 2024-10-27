@@ -1,0 +1,31 @@
+.issues-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.table-responsive {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.btn-group .btn {
+  border-radius: 0.25rem;
+}
+
+.btn-primary, .btn-danger {
+  flex: 1;
+}
+  

@@ -1,13 +1,23 @@
 .card {
-    max-width: 800px; /* Set the max width of the card */
-    margin: 0 auto;   /* Center the card within its parent */
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.table-responsive {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-container {
-    max-width: 100%;   /* Ensure the form container doesn't exceed the card width */
-    padding: 20px;     /* Optional: Add padding for aesthetics */
+  max-width: 100%;
+  padding: 20px;
 }
 
 .form-control, .form-select {
-    width: 100%;       /* Ensure form fields take the full width of their parent */
+  width: 100%;
 }
+
+.invalid-feedback {
+  display: block;
+}
+  

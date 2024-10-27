@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((error) => {
-        // Check if error is a 401 and if it's not a login request
+        
         if (error instanceof HttpErrorResponse && error.status === 401 && !req.url.includes('/login')) {
           return this.authService.refreshAccessToken().pipe(
             switchMap((newAccessToken) => {

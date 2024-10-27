@@ -28,8 +28,8 @@ export class UserService {
     return this.http.put<{ message: string }>(`${this.apiURL}/updateProfile/${id}`, userDeatils);
   }
 
-  updateRole(userDeatils: User, id: string): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(`${this.apiURL}/updateRole/${id}`, userDeatils);
+  updateUser(userDeatils: User, id: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(`${this.apiURL}/${id}`, userDeatils);
   }
 
   deletUser(id: string): Observable<{ message: string }> {

@@ -8,12 +8,14 @@ This repository contains the frontend application for the InnCircles Assignment 
 
     ```bash
     sysAdmin@gmail.com
+
     ```
 
 **Admin password**
 
     ```bash
     Admin@007
+
     ```
 
 ## Prerequisites

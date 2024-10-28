@@ -6,7 +6,7 @@ This repository contains the frontend application for the InnCircles Assignment 
 
 **Admin email**
 
-    sysAdmin@gmail.com
+    sysAdmin007@gmail.com
 
 **Admin password**
 

@@ -57,7 +57,14 @@ export class IssueFormComponent implements OnInit {
             this.resetForm();
           },
           error: (error) => {
-            console.error('Error creating issue:', error);
+            if (error.status === 403) {
+              alert('Access Denied: You do not have permission to perform this action.');
+              this.resetForm();
+          } else {
+              alert(`Error creating issue: ${error.message}`);
+              this.resetForm();
+          }
+          console.error('Error creating issue:', error);
           }
         });
       }

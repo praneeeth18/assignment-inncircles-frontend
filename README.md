@@ -4,10 +4,10 @@ This repository contains the frontend application for the InnCircles Assignment 
 
 ## Prerequisites
 
-Make sure you have the following installed:
+The project is made using:
 
-- Node.js (version 12 or higher)
-- Angular CLI (version 12 or higher)
+- Node.js (version 20.8.0)
+- Angular CLI (version 17.1.0)
 
 ## Getting Started
 

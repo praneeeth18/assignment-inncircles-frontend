@@ -1,6 +1,6 @@
 # InnCircles Assignment
 
-This repository contains the frontend application for the InnCircles Assignment application built using Angular.
+This repository contains the frontend application for the InnCircles Assignment built using Angular.
 
 ## Prerequisites
 

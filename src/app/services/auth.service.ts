@@ -1,45 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private apiURL = 'http://localhost:3500/api';
 
-  apiURL = 'http://localhost:3500/api';
-
-  private accessToken: string | null = null;
-
-  private loginStatusSubject = new BehaviorSubject<boolean>(false);
+  private accessToken: string | null = localStorage.getItem('accessToken');
+  private loginStatusSubject = new BehaviorSubject<boolean>(!!this.accessToken);
   loginStatus$ = this.loginStatusSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   getAccessToken(): string | null {
-    return this.accessToken || localStorage.getItem('accessToken');
+    return this.accessToken;
   }
 
-  setAccessToken(token: string) {
+  setAccessToken(token: string): void {
     this.accessToken = token;
-    localStorage.setItem('accessToken', token);  
-    this.loginStatusSubject.next(true);
-}
-
+    localStorage.setItem('accessToken', token);
+    this.loginStatusSubject.next(true); 
+  }
 
   setUserInfo(userId: string, email: string, roles: string[], permissions: string[]): void {
     localStorage.setItem('userId', userId);
     localStorage.setItem('email', email);
-    localStorage.setItem('roles', JSON.stringify(roles));
+    localStorage.setItem('roles', JSON.stringify(roles));  
     localStorage.setItem('permissions', JSON.stringify(permissions));
   }
 
-  login(email: string, password: string): Observable<{ message: string, accessToken: string, userId: string, email: string, roles: string[] , permissions: string[]}> {
-    return this.http.post<{ message: string, accessToken: string, userId: string, email: string, roles: string[], permissions: string[] }>(`${this.apiURL}/login`, { email, password }).pipe(
+  login(email: string, password: string): Observable<{ message: string; accessToken: string; userId: string; email: string; roles: string[]; permissions: string[] }> {
+    return this.http.post<{ message: string; accessToken: string; userId: string; email: string; roles: string[]; permissions: string[] }>(`${this.apiURL}/login`, { email, password }).pipe(
       tap(response => {
         this.setAccessToken(response.accessToken);
         this.setUserInfo(response.userId, response.email, response.roles, response.permissions);
-        this.loginStatusSubject.next(true);
+        this.loginStatusSubject.next(true); 
       })
     );
   }
@@ -55,13 +52,11 @@ export class AuthService {
 
   logout(): void {
     this.accessToken = null;
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('email');
-    localStorage.removeItem('roles');
-    localStorage.removeItem('permissions');
-    this.loginStatusSubject.next(false);
-    this.http.get(`${this.apiURL}/logout`).subscribe();
+    localStorage.clear();  
+    this.loginStatusSubject.next(false); 
+    this.http.get(`${this.apiURL}/logout`).subscribe({
+      error: err => console.error('Logout failed:', err) 
+    });
   }
 
   getUserId(): string | null {

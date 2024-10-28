@@ -15,6 +15,10 @@ export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.isLoggedIn = !!this.authService.getAccessToken();
+    this.userRoles = this.authService.getUserRoles();
+    this.setNavItemsBasedOnRole();
+
     this.authService.loginStatus$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (isLoggedIn) {
@@ -35,8 +39,7 @@ export class NavbarComponent implements OnInit {
   }
 
   setNavItemsBasedOnRole() {
-    this.navItems = []; 
-
+    this.navItems = [];
     if (this.userRoles.includes('Admin')) {
       this.navItems.push(
         { label: 'Issues', route: '/issues' },

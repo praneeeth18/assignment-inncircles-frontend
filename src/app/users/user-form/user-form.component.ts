@@ -67,23 +67,28 @@ export class UserFormComponent implements OnInit, OnChanges {
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      const userDetails = this.userForm.value;
-      const request$ = this.isEditMode 
-        ? this.userService.updateUser(userDetails, this.user!._id)
-        : this.userService.register(userDetails);
+        const userDetails = this.userForm.value;
+        const request$ = this.isEditMode 
+            ? this.userService.updateUser(userDetails, this.user!._id)
+            : this.userService.register(userDetails);
 
-      request$.subscribe({
-        next: () => {
-          alert(`User ${this.isEditMode ? 'updated' : 'created'} successfully!`);
-          this.resetForm();
-        },
-        error: (error) => {
-          console.error(`Error ${this.isEditMode ? 'updating' : 'creating'} user:`, error);
-          alert(`Error ${this.isEditMode ? 'updating' : 'creating'} user`);
-        }
-      });
-    }
+        request$.subscribe({
+            next: () => {
+                alert(`User ${this.isEditMode ? 'updated' : 'created'} successfully!`);
+                this.resetForm();
+            },
+            error: (error) => {
+                if (error.status === 409) {
+                    alert('Email already exists');
+                } else {
+                    console.error(`Error ${this.isEditMode ? 'updating' : 'creating'} user:`, error);
+                    alert(`Error ${this.isEditMode ? 'updating' : 'creating'} user`);
+                }
+            }
+        });
+     }
   }
+
 
   resetForm(): void {
     this.userForm.reset();

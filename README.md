@@ -22,14 +22,22 @@ Follow these steps to set up the project locally:
 
 2. **Navigate to project directory:**
 
+   ```bash
    cd assignment-inncircles-frontend
+
+   ```
 
 3. **Install the dependencies:**
 
+   ```bash
    npm install
+
+   ```
 
 4. **Run the application:**
 
+   ```bash
    ng serve -o
+   ```
 
    By default, the project runs on http://localhost:4200.

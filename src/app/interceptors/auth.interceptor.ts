@@ -8,14 +8,13 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  private refreshAttempts = 0; // Counter for refresh attempts
-  private readonly MAX_REFRESH_ATTEMPTS = 1; // Maximum refresh attempts allowed
+  private refreshAttempts = 0;
+  private readonly MAX_REFRESH_ATTEMPTS = 1;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const accessToken = this.authService.getAccessToken();
-    console.log(accessToken);
     let authReq = req;
 
     if (accessToken) {
@@ -28,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (error instanceof HttpErrorResponse && error.status === 401 && !req.url.includes('/login')) {
           if (this.refreshAttempts < this.MAX_REFRESH_ATTEMPTS) {
-            this.refreshAttempts++; // Increment the refresh attempts counter
+            this.refreshAttempts++;
             return this.authService.refreshAccessToken().pipe(
               switchMap((newAccessToken) => {
                 this.authService.setAccessToken(newAccessToken);
@@ -41,7 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 this.authService.logout();
                 this.router.navigate(['']);
                 alert('Session expired. Please log in again.');
-                this.refreshAttempts = 0; // Reset attempts counter after logout
+                this.refreshAttempts = 0; 
                 return throwError(() => refreshError);
               })
             );
@@ -49,7 +48,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.authService.logout();
             this.router.navigate(['']);
             alert('Too many refresh attempts. Please log in again.');
-            this.refreshAttempts = 0; // Reset attempts counter
+            this.refreshAttempts = 0; 
             return throwError(() => error);
           }
         }

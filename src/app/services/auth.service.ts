@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<{ message: string; accessToken: string; userId: string; email: string; roles: string[]; permissions: string[] }> {
-    return this.http.post<{ message: string; accessToken: string; userId: string; email: string; roles: string[]; permissions: string[] }>(`${this.apiURL}/login`, { email, password }).pipe(
+    return this.http.post<{ message: string; accessToken: string; userId: string; email: string; roles: string[]; permissions: string[] }>(`${this.apiURL}/login`, { email, password }, { withCredentials: true }).pipe(
       tap(response => {
         this.setAccessToken(response.accessToken);
         this.setUserInfo(response.userId, response.email, response.roles, response.permissions);

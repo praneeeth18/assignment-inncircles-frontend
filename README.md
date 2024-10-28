@@ -2,6 +2,20 @@
 
 This repository contains the frontend application for the InnCircles Assignment built using Angular.
 
+# System Admin Login
+
+**Admin email**
+
+    ```bash
+    sysAdmin@gmail.com
+    ```
+
+**Admin password**
+
+    ```bash
+    Admin@007
+    ```
+
 ## Prerequisites
 
 The project is made using:
